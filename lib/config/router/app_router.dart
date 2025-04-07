@@ -4,7 +4,7 @@ import 'package:teslo_app/features/auth/presentation/screens/register_screen.dar
 import 'package:teslo_app/features/products/presentation/products_screen.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/register',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/',

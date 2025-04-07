@@ -88,7 +88,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   onconfirmPasswordChange(String value) {
     final newPassword = Password.dirty(value);
     state = state.copyWith(
-        password: newPassword,
+        confirmPassword: newPassword,
         isValid: Formz.validate([
           state.name,
           state.email,

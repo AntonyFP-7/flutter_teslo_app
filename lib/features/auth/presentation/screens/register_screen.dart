@@ -104,7 +104,7 @@ class _RegisterForm extends ConsumerWidget {
             obscureText: true,
             onChanged: (value) {
               _password = value;
-              ref.read(registerFormProvider.notifier).onEmailChange;
+              ref.read(registerFormProvider.notifier).onPasswordChange(value);
             },
             errorMessage: registerForm.isFormPosted
                 ? registerForm.password.errorMessage
@@ -116,13 +116,13 @@ class _RegisterForm extends ConsumerWidget {
             obscureText: true,
             onChanged: (value) {
               _confirmPassword = value;
-              ref.read(registerFormProvider.notifier).onPasswordChange;
+              ref
+                  .read(registerFormProvider.notifier)
+                  .onconfirmPasswordChange(value);
             },
             errorMessage: registerForm.isFormPosted
                 ? registerForm.confirmPassword.errorMessage
-                : (_password == _confirmPassword
-                    ? null
-                    : "Contraseña no coincide"),
+                : null,
           ),
           const SizedBox(height: 30),
           SizedBox(
