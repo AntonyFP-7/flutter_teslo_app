@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:teslo_app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:teslo_app/features/auth/presentation/providers/providers.dart';
 import 'package:teslo_app/features/shared/shared.dart';
 
@@ -66,14 +67,20 @@ class RegisterScreen extends StatelessWidget {
 
 class _RegisterForm extends ConsumerWidget {
   const _RegisterForm();
+  void showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final registerForm = ref.watch(registerFormProvider);
-
+    ref.listen(authProvider, (previous, next) {
+      if (next.errorMessage.isEmpty) return;
+      showSnackbar(context, next.errorMessage);
+    });
     final textStyles = Theme.of(context).textTheme;
-    String _password = '';
-    String _confirmPassword = '';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -103,7 +110,6 @@ class _RegisterForm extends ConsumerWidget {
             label: 'Contraseña',
             obscureText: true,
             onChanged: (value) {
-              _password = value;
               ref.read(registerFormProvider.notifier).onPasswordChange(value);
             },
             errorMessage: registerForm.isFormPosted
@@ -115,7 +121,6 @@ class _RegisterForm extends ConsumerWidget {
             label: 'Repita la contraseña',
             obscureText: true,
             onChanged: (value) {
-              _confirmPassword = value;
               ref
                   .read(registerFormProvider.notifier)
                   .onconfirmPasswordChange(value);
