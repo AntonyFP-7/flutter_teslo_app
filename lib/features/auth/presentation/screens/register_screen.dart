@@ -85,9 +85,11 @@ class _RegisterForm extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          const SizedBox(height: 50),
+          //const SizedBox(height: 50),
+          const Spacer(),
           Text('Nueva cuenta', style: textStyles.titleMedium),
-          const SizedBox(height: 50),
+          //const SizedBox(height: 50),
+          const Spacer(),
           CustomTextFormField(
             label: 'Nombre completo',
             keyboardType: TextInputType.emailAddress,
@@ -96,7 +98,8 @@ class _RegisterForm extends ConsumerWidget {
                 ? registerForm.name.errorMessage
                 : null,
           ),
-          const SizedBox(height: 30),
+          //const SizedBox(height: 30),
+          const Spacer(),
           CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
@@ -105,7 +108,8 @@ class _RegisterForm extends ConsumerWidget {
                 ? registerForm.email.errorMessage
                 : null,
           ),
-          const SizedBox(height: 30),
+          //const SizedBox(height: 30),
+          const Spacer(),
           CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
@@ -116,7 +120,8 @@ class _RegisterForm extends ConsumerWidget {
                 ? registerForm.password.errorMessage
                 : null,
           ),
-          const SizedBox(height: 30),
+          //const SizedBox(height: 30),
+          const Spacer(),
           CustomTextFormField(
             label: 'Repita la contraseña',
             obscureText: true,
@@ -129,17 +134,19 @@ class _RegisterForm extends ConsumerWidget {
                 ? registerForm.confirmPassword.errorMessage
                 : null,
           ),
-          const SizedBox(height: 30),
+          // const SizedBox(height: 30),
+          const Spacer(),
           SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: CustomFilledButton(
-                text: 'Crear',
-                buttonColor: Colors.black,
-                onPressed: () {
-                  ref.read(registerFormProvider.notifier).onFormSubmit();
-                },
-              )),
+            width: double.infinity,
+            height: 60,
+            child: CustomFilledButton(
+              text: 'Crear',
+              buttonColor: Colors.black,
+              onPressed: () {
+                ref.read(registerFormProvider.notifier).onFormSubmit();
+              },
+            ),
+          ),
           const Spacer(flex: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
