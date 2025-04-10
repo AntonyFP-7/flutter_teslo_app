@@ -9,7 +9,7 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = AutRepositoryEmpl();
   final keyValueStorageService = KeyValueStorageServiceImpl();
-  
+
   return AuthNotifier(
     authRepository: authRepository,
     keyValueStorageService: keyValueStorageService,
@@ -52,7 +52,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  void checkAuthStatus() async {}
+  void checkAuthStatus() async {
+    final token = await keyValueStorageService.getValue<String>('token');
+    if (token == null) return logout();
+    try {
+      final user = await authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } catch (e) {
+      logout();
+    }
+  }
 
   Future<void> logout([String? errorMessage]) async {
     await keyValueStorageService.removeKey('token');
