@@ -90,7 +90,7 @@ class AuthState {
   final String errorMessage;
 
   AuthState({
-    this.authStatus = AuthStatus.checking,
+    this.authStatus = AuthStatus.notAuthenticated,
     this.user,
     this.errorMessage = '',
   });

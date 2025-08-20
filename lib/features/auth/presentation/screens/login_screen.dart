@@ -63,11 +63,15 @@ class _LoginForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginForm = ref.watch(loginFormProvider);
     ref.listen(authProvider, (previous, next) {
+      if (next.authStatus == AuthStatus.authenticated) {
+        // Redirigir cuando el estado cambie a autenticado
+        GoRouter.of(context).go('/');
+      }
       if (next.errorMessage.isEmpty) return;
       showSnackbar(context, next.errorMessage);
     });
-    final textStyles = Theme.of(context).textTheme;
 
+    final textStyles = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -87,21 +91,24 @@ class _LoginForm extends ConsumerWidget {
           CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
+            onFieldSubmitted: (_) =>
+                ref.read(loginFormProvider.notifier).onFormSubmit(),
             onChanged: ref.read(loginFormProvider.notifier).onPasswordChange,
             errorMessage:
                 loginForm.isFormPosted ? loginForm.password.errorMessage : null,
           ),
           const SizedBox(height: 30),
           SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: CustomFilledButton(
-                text: 'Ingresar',
-                buttonColor: Colors.black,
-                onPressed: () {
-                  ref.read(loginFormProvider.notifier).onFormSubmit();
-                },
-              )),
+            width: double.infinity,
+            height: 60,
+            child: CustomFilledButton(
+              text: 'Ingresar',
+              buttonColor: Colors.black,
+              onPressed: loginForm.isPosting
+                  ? null
+                  : ref.read(loginFormProvider.notifier).onFormSubmit,
+            ),
+          ),
           const Spacer(flex: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
