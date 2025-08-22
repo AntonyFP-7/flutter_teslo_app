@@ -6,6 +6,7 @@ import 'package:teslo_app/features/auth/presentation/screens/check_auth_status_s
 import 'package:teslo_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:teslo_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:teslo_app/features/products/presentation/products_screen.dart';
+import 'package:teslo_app/features/products/presentation/screen.dart';
 
 final goRouterProvider = Provider((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
@@ -28,6 +29,12 @@ final goRouterProvider = Provider((ref) {
         GoRoute(
           path: '/register',
           builder: (context, state) => const RegisterScreen(),
+        ),
+        GoRoute(
+          path: '/product/:id',
+          builder: (context, state) => ProductScreen(
+            productId: state.pathParameters['id'] ?? 'no-id',
+          ),
         ),
       ],
       redirect: (context, state) {
